@@ -2,6 +2,7 @@ package com.medina.fragrances.fragrance_app.controller;
 
 import com.medina.fragrances.fragrance_app.model.Contacto;
 import com.medina.fragrances.fragrance_app.service.ContactoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +19,9 @@ public class ContactoController {
     }
 
     @GetMapping({"/contacto", "/contacto.html"})
-    public String mostrarContacto(Model model) {
+    public String mostrarContacto(Model model, HttpSession session) {
         model.addAttribute("contacto", new Contacto());
+        model.addAttribute("nombreUsuario", session.getAttribute("nombreUsuario"));
         return "contacto";
     }
 

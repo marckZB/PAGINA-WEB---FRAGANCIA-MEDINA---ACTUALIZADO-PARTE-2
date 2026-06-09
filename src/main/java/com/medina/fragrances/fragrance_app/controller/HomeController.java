@@ -16,10 +16,16 @@ public class HomeController {
     }
 
     @GetMapping({ "/marcas", "/marcas.html" })
-    public String marcas() { return "marcas"; }
+    public String marcas(HttpSession session, Model model) {
+        model.addAttribute("nombreUsuario", session.getAttribute("nombreUsuario"));
+        return "marcas";
+    }
 
     @GetMapping({ "/decants", "/decants.html" })
-    public String decants() { return "decants"; }
+    public String decants(HttpSession session, Model model) {
+        model.addAttribute("nombreUsuario", session.getAttribute("nombreUsuario"));
+        return "decants";
+    }
 
     @GetMapping({ "/carrito", "/carrito.html" })
     public String carrito() { return "carrito"; }

@@ -54,8 +54,10 @@ public class AuthController {
 
     @GetMapping("/login")
     public String mostrarLogin(@RequestParam(value = "registrado", required = false) String registrado,
+                               @RequestParam(value = "redirect", required = false, defaultValue = "/") String redirect,
                                Model model) {
         model.addAttribute("usuario", new Usuario());
+        model.addAttribute("redirectUrl", redirect);
         if (registrado != null) {
             model.addAttribute("mensajeExito", "¡Cuenta creada exitosamente! Ya puedes iniciar sesión.");
         }
@@ -64,6 +66,7 @@ public class AuthController {
 
     @PostMapping("/auth/ingresar")
     public String ingresarUsuario(@ModelAttribute("usuario") Usuario usuario,
+                                  @RequestParam(value = "redirect", required = false, defaultValue = "/") String redirect,
                                   Model model,
                                   HttpSession session) {
 
@@ -72,9 +75,11 @@ public class AuthController {
         if (usuarioOpt.isPresent() && usuarioOpt.get().getPassword().equals(usuario.getPassword())) {
             // Guardar nombre en sesion para mostrarlo en el navbar
             session.setAttribute("nombreUsuario", usuarioOpt.get().getNombre());
-            return "redirect:/";
+            // Redirigir a la página de origen (o a inicio si no hay redirect)
+            return "redirect:" + redirect;
         } else {
             model.addAttribute("errorLogin", "Correo o contraseña incorrectos.");
+            model.addAttribute("redirectUrl", redirect);
             model.addAttribute("usuario", usuario);
             return "autch/login";
         }

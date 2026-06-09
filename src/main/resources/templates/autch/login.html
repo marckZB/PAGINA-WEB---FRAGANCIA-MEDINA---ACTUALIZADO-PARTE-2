@@ -27,6 +27,8 @@
 
                 <!-- Formulario Thymeleaf -->
                 <form th:action="@{/auth/ingresar}" th:object="${usuario}" method="post">
+                    <!-- Campo oculto para mantener la página de origen -->
+                    <input type="hidden" name="redirect" th:value="${redirectUrl != null ? redirectUrl : '/'}">
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-uppercase">Correo Electrónico</label>
                         <input type="email" th:field="*{email}"
