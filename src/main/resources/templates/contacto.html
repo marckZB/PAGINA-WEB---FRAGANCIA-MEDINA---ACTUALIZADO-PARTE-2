@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Medina Fragrances</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/Styles.css}">
+</head>
+<body>
+
+  <div class="top-bar text-center py-2">
+    <small>ENVÍO GRATIS EN PEDIDOS MAYORES A S/. 350 - LIMA</small>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/}"><span class="brand-name">MEDINA FRAGRANCES</span></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" th:href="@{/}">INICIO</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/catalogo}">CATÁLOGO</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/marcas}">MARCAS</a></li>
+          <li class="nav-item"><a class="nav-link" th:href="@{/decants}">DECANTS</a></li>
+          <li class="nav-item"><a class="nav-link active" th:href="@{/contacto}">CONTACTO</a></li>
+        </ul>
+      </div>
+      <div class="navbar-nav flex-row gap-3 align-items-center">
+        <a class="nav-link px-2" href="/login"><i class="bi bi-person fs-5"></i></a>
+        <a class="nav-link" href="#"><i class="bi bi-search"></i></a>
+        <a class="nav-link" href="#"><i class="bi bi-bag"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3">CONTÁCTANOS</h1>
+        <p class="text-muted">Estamos aquí para ayudarte a encontrar tu fragancia perfecta</p>
+      </div>
+
+      <!-- Mensaje de exito al enviar -->
+      <div th:if="${param.enviado}" class="alert alert-success rounded-0 text-center mb-4">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        ¡Mensaje enviado correctamente! Te responderemos pronto.
+      </div>
+
+      <div class="row g-5">
+        <div class="col-lg-6">
+          <div class="card border-0 shadow-sm p-4">
+            <h4 class="mb-4">Envíanos un Mensaje</h4>
+
+            <!-- Formulario Thymeleaf que guarda en MySQL -->
+            <form th:action="@{/contacto/enviar}" th:object="${contacto}" method="post">
+
+              <div class="mb-3">
+                <label class="form-label small text-uppercase fw-bold">Nombre</label>
+                <input type="text" th:field="*{nombre}" class="form-control form-control-lg"
+                       placeholder="Tu nombre completo">
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('nombre')}"
+                     th:errors="*{nombre}"></div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small text-uppercase fw-bold">Correo Electrónico</label>
+                <input type="email" th:field="*{email}" class="form-control form-control-lg"
+                       placeholder="tucorreo@ejemplo.com">
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('email')}"
+                     th:errors="*{email}"></div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label small text-uppercase fw-bold">Asunto</label>
+                <input type="text" th:field="*{asunto}" class="form-control form-control-lg"
+                       placeholder="¿En qué podemos ayudarte?">
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('asunto')}"
+                     th:errors="*{asunto}"></div>
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label small text-uppercase fw-bold">Mensaje</label>
+                <textarea th:field="*{mensaje}" class="form-control form-control-lg"
+                          rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
+                <div class="text-danger small mt-1" th:if="${#fields.hasErrors('mensaje')}"
+                     th:errors="*{mensaje}"></div>
+              </div>
+
+              <button type="submit" class="btn btn-dark w-100 py-3 rounded-0">ENVIAR MENSAJE</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="mb-5">
+            <h4 class="mb-4">Información de Contacto</h4>
+            <div class="d-flex align-items-start mb-3">
+              <i class="bi bi-telephone fs-4 me-3 text-dark"></i>
+              <div><strong class="d-block">Teléfono</strong><span class="text-muted">+51 123 456 789</span></div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <i class="bi bi-envelope fs-4 me-3 text-dark"></i>
+              <div><strong class="d-block">Email</strong><span class="text-muted">info@medinafragrances.com</span></div>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <i class="bi bi-geo-alt fs-4 me-3 text-dark"></i>
+              <div><strong class="d-block">Dirección</strong><span class="text-muted">Av. Larco 123, Miraflores, Lima, Perú</span></div>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <h4 class="mb-4">Horario de Atención</h4>
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="p-4 bg-light rounded">
+                  <strong class="d-block mb-1">Lunes a Viernes</strong>
+                  <span class="text-muted">10:00 AM - 8:00 PM</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="p-4 bg-light rounded">
+                  <strong class="d-block mb-1">Sábados</strong>
+                  <span class="text-muted">10:00 AM - 6:00 PM</span>
+                </div>
+              </div>
+            </div>
+            <p class="mt-3 text-muted small">Domingos: Cerrado</p>
+          </div>
+
+          <div>
+            <h4 class="mb-3">Síguenos</h4>
+            <a href="#" class="btn btn-outline-dark me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="btn btn-outline-dark me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="btn btn-outline-dark me-2"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="btn btn-outline-dark"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

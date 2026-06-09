@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcas - Medina Fragrances</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/Styles.css">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar text-center py-2">
+    <small>ENVÍO GRATIS EN PEDIDOS MAYORES A S/. 350 - LIMA</small>
+  </div>
+
+  <!-- Navbar con Carrito -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top border-bottom">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <span class="brand-name">MEDINA FRAGRANCES</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">INICIO</a></li>
+          <li class="nav-item"><a class="nav-link" href="/catalogo">CATÁLOGO</a></li>
+          <li class="nav-item"><a class="nav-link active" href="marcas.html">MARCAS</a></li>
+          <li class="nav-item"><a class="nav-link" href="decants.html">DECANTS</a></li>
+          <li class="nav-item"><a class="nav-link" href="contacto.html">CONTACTO</a></li>
+        </ul>
+      </div>
+      <div class="navbar-nav flex-row gap-3 align-items-center">
+        <div class="user-menu">
+          <a class="nav-link px-2" href="/login"> <i class="bi bi-person"></i></a>
+        </div>
+        <a class="nav-link" href="#"><i class="bi bi-search"></i></a>
+        <a class="nav-link position-relative" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+          <i class="bi bi-bag"></i>
+          <span class="cart-counter position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem; display: none;">0</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="bg-light py-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-muted">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Marcas</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3">MARCAS DISPONIBLES</h1>
+        <p class="text-muted lead">Trabajamos solo con las mejores casas de perfumería del mundo</p>
+      </div>
+      
+      <div class="row g-4">
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+              <div class="product-image-container">
+              <img src="img/LOGO VALENTINO.jpg" alt="VALENTINO">
+              </div>
+              <h4 class="mb-3" style="font-family: 'Playfair Display', serif;">VALENTINO</h4>
+              <p class="text-muted mb-4">Fragancias elegantes y sofisticadas para ocasiones especiales.</p>
+              <a href="/catalogo" class="btn btn-outline-dark">VER PRODUCTOS</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+              <div class="product-image-container">
+              <img src="IMG/LOGO CHANEL.webp" alt="CHANEL">
+              </div>
+              <h4 class="mb-3" style="font-family: 'Playfair Display', serif;">CHANEL</h4>
+              <p class="text-muted mb-4">Iconos de la perfumería con aromas atemporales.</p>
+              <a href="/catalogo" class="btn btn-outline-dark">VER PRODUCTOS</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+              <div class="product-image-container">
+              <img src="img/LOGO DIOR.jpg" alt="DIOR">
+              </div>
+              <h4 class="mb-3" style="font-family: 'Playfair Display', serif;">DIOR</h4>
+              <p class="text-muted mb-4">Aromas lujosos y refinados para el estilo de vida moderno.</p>
+              <a href="/catalogo" class="btn btn-outline-dark">VER PRODUCTOS</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+              <div class="product-image-container">
+              <img src="img/LOGO GUCCI.jpg" alt="GUCCI">
+              </div>
+              <h4 class="mb-3" style="font-family: 'Playfair Display', serif;">GUCCI</h4>
+              <p class="text-muted mb-4">Fragancias modernas y audaces con toques de lujo italiano.</p>
+              <a href="/catalogo" class="btn btn-outline-dark">VER PRODUCTOS</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+              <div class="product-image-container">
+              <img src="img/LOGO TOM FORD.webp" alt="TOM FORD">
+              </div>
+              <h4 class="mb-3" style="font-family: 'Playfair Display', serif;">TOM FORD</h4>
+              <p class="text-muted mb-4">Aromas intensos y sofisticados para los amantes del lujo extremo.</p>
+              <a href="/catalogo" class="btn btn-outline-dark">VER PRODUCTOS</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4 col-sm-6">
+          <div class="card h-100 border-0 shadow-sm text-center p-4">
+            <div class="card-body">
+              <div class="product-image-container">
+              <img src="img/LOGO YVES SAINT LAURENT.jpg" alt="YVES SAINT LAURENT">
+              </div>
+              <h4 class="mb-3" style="font-family: 'Playfair Display', serif;">YVES SAINT LAURENT</h4>
+              <p class="text-muted mb-4">Elegancia parisina con aromas contemporáneos y clásicos.</p>
+              <a href="/catalogo" class="btn btn-outline-dark">VER PRODUCTOS</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Offcanvas del Carrito -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title fw-bold" id="cartOffcanvasLabel">
+        TU CARRITO (<span class="cart-count-text">0</span>)
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    
+    <div class="offcanvas-body d-flex flex-column p-0">
+      <div id="offcanvas-cart-items" class="flex-grow-1 overflow-auto p-3">
+        <div class="text-center py-5 text-muted">
+          <i class="bi bi-bag-x display-4 d-block mb-3"></i>
+          <p class="mb-0">Tu carrito está vacío</p>
+          <small>Agrega productos del catálogo</small>
+        </div>
+      </div>
+
+      <div class="border-top p-3 bg-light" id="offcanvas-cart-summary" style="display: none;">
+        <div class="mb-2">
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Subtotal</span>
+            <span class="fw-bold" id="offcanvas-subtotal">S/. 0.00</span>
+          </div>
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Envío</span>
+            <span class="text-success fw-bold" id="offcanvas-shipping">GRATIS</span>
+          </div>
+          <small class="text-muted d-block mb-3" id="offcanvas-shipping-msg">
+            ¡Envío gratis en compras mayores a S/. 350!
+          </small>
+        </div>
+        
+        <div class="d-flex justify-content-between mb-3 pb-3 border-bottom">
+          <span class="fw-bold fs-5">Total</span>
+          <span class="fw-bold fs-5 text-danger" id="offcanvas-total">S/. 0.00</span>
+        </div>
+        
+        <button class="btn btn-dark w-100 mb-2 py-3 fw-bold" onclick="proceedToCheckout()">
+          <i class="bi bi-lock me-2"></i>PROCEDER AL PAGO
+        </button>
+        
+        <a href="carrito.html" class="text-center d-block text-decoration-none small text-muted">
+          Ver carrito completo →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="luxury-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <h5>MEDINA FRAGRANCES</h5>
+          <p>Curaduría exclusiva de perfumería original. Descubre el aroma perfecto que define tu esencia. Calidad y autenticidad garantizada en cada gota.</p>
+          <div class="social-icons mt-4">
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-tiktok"></i></a>
+            <a href="#"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4">
+          <h6>Explorar</h6>
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="/catalogo">Catálogo</a></li>
+            <li><a href="decants.html">Decants</a></li>
+            <li><a href="marcas.html">Marcas</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-6 mb-4">
+          <h6>Ayuda</h6>
+          <ul>
+            <li><a href="contacto.html">Soporte</a></li>
+            <li><a href="privacidad.html">Política de Privacidad</a></li>
+            <li><a href="terminos.html">Términos y Condiciones</a></li>
+            <li><a href="#">Envíos y Devoluciones</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <h6>Newsletter</h6>
+          <p class="mb-3">Suscríbete para recibir ofertas exclusivas y novedades.</p>
+          <form>
+            <input type="email" class="newsletter-input" placeholder="Tu correo electrónico">
+            <button type="submit" class="btn-subscribe">Suscribirse</button>
+          </form>
+          <div class="mt-4">
+            <h6 style="margin-bottom: 15px;">Pagos Seguros</h6>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="payment-badge">Visa</span>
+              <span class="payment-badge">Mastercard</span>
+              <span class="payment-badge">Yape</span>
+              <span class="payment-badge">Plin</span>
+              <span class="payment-badge">BCP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row copyright-bar align-items-center">
+        <div class="col-md-6 text-center text-md-start">&copy; 2026 Medina Fragrances. Todos los derechos reservados.</div>
+        <div class="col-md-6 text-center text-md-end"><i class="bi bi-shield-lock-fill me-1"></i> Compra 100% Segura y Encriptada</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="main/main.js"></script>
+</body>
+</html>
