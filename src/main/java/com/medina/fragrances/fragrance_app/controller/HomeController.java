@@ -28,7 +28,10 @@ public class HomeController {
     }
 
     @GetMapping({ "/carrito", "/carrito.html" })
-    public String carrito() { return "carrito"; }
+    public String carrito(HttpSession session, Model model) {
+        model.addAttribute("nombreUsuario", session.getAttribute("nombreUsuario"));
+        return "carrito";
+    }
 
     @GetMapping({ "/privacidad", "/privacidad.html" })
     public String privacidad() { return "privacidad"; }
