@@ -7,7 +7,10 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -19,8 +22,6 @@ public class AuthController {
     public AuthController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
     }
-
-    // ===== REGISTRO =====
 
     @GetMapping("/registro")
     public String mostrarRegistro(Model model) {
@@ -37,29 +38,29 @@ public class AuthController {
         }
 
         if (usuarioService.existeEmail(usuario.getEmail())) {
-            model.addAttribute("errorEmail", "Este correo ya está registrado. Intente con otro.");
+            model.addAttribute("errorEmail", "Este correo ya esta registrado. Intente con otro.");
             return "autch/registro";
         }
 
         if (usuarioService.existeDni(usuario.getDni())) {
-            model.addAttribute("errorDni", "Este DNI ya está registrado.");
+            model.addAttribute("errorDni", "Este DNI ya esta registrado.");
             return "autch/registro";
         }
 
+        usuario.setRol("CLIENTE");
         usuarioService.registrar(usuario);
         return "redirect:/login?registrado=true";
     }
-
-    // ===== LOGIN =====
 
     @GetMapping("/login")
     public String mostrarLogin(@RequestParam(value = "registrado", required = false) String registrado,
                                @RequestParam(value = "redirect", required = false, defaultValue = "/") String redirect,
                                Model model) {
+        usuarioService.asegurarAdminPrincipal();
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("redirectUrl", redirect);
         if (registrado != null) {
-            model.addAttribute("mensajeExito", "¡Cuenta creada exitosamente! Ya puedes iniciar sesión.");
+            model.addAttribute("mensajeExito", "Cuenta creada exitosamente. Ya puedes iniciar sesion.");
         }
         return "autch/login";
     }
@@ -69,19 +70,25 @@ public class AuthController {
                                   @RequestParam(value = "redirect", required = false, defaultValue = "/") String redirect,
                                   Model model,
                                   HttpSession session) {
-
         Optional<Usuario> usuarioOpt = usuarioService.buscarPorEmail(usuario.getEmail());
 
         if (usuarioOpt.isPresent() && usuarioOpt.get().getPassword().equals(usuario.getPassword())) {
-            // Guardar nombre en sesion para mostrarlo en el navbar
-            session.setAttribute("nombreUsuario", usuarioOpt.get().getNombre());
-            // Redirigir a la página de origen (o a inicio si no hay redirect)
+            Usuario usuarioLogueado = usuarioOpt.get();
+            session.setAttribute("nombreUsuario", usuarioLogueado.getNombre());
+            session.setAttribute("usuarioId", usuarioLogueado.getId());
+            session.setAttribute("rolUsuario", usuarioLogueado.getRol());
+
+            if ("ADMIN".equals(usuarioLogueado.getRol())) {
+                session.setAttribute("adminAutenticado", true);
+                return "redirect:/admin";
+            }
+
             return "redirect:" + redirect;
-        } else {
-            model.addAttribute("errorLogin", "Correo o contraseña incorrectos.");
-            model.addAttribute("redirectUrl", redirect);
-            model.addAttribute("usuario", usuario);
-            return "autch/login";
         }
+
+        model.addAttribute("errorLogin", "Correo o contrasena incorrectos.");
+        model.addAttribute("redirectUrl", redirect);
+        model.addAttribute("usuario", usuario);
+        return "autch/login";
     }
 }

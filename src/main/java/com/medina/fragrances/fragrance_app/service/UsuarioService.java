@@ -20,13 +20,58 @@ public class UsuarioService {
     // Registrar un nuevo usuario
     @Transactional
     public Usuario registrar(Usuario usuario) {
+        if (usuario.getRol() == null || usuario.getRol().isBlank()) {
+            usuario.setRol("CLIENTE");
+        }
         return usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public Usuario guardar(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    @Transactional
+    public Usuario asegurarAdminPrincipal() {
+        Optional<Usuario> adminExistente = usuarioRepository.findFirstByRol("ADMIN");
+        if (adminExistente.isPresent()) {
+            return adminExistente.get();
+        }
+
+        Optional<Usuario> existente = usuarioRepository.findByEmail("jahirortizbr@gmail.com")
+                .or(() -> usuarioRepository.findByEmail("jahirotzbr@gmail.com"))
+                .or(() -> usuarioRepository.findByEmail("jahirortzbr@gmail.com"))
+                .or(() -> usuarioRepository.findByDni("76615558"));
+
+        if (existente.isPresent()) {
+            Usuario admin = existente.get();
+            if (!"ADMIN".equals(admin.getRol())) {
+                admin.setRol("ADMIN");
+                return usuarioRepository.save(admin);
+            }
+            return admin;
+        }
+
+        Usuario admin = new Usuario();
+        admin.setNombre("Jahir Ortiz");
+        admin.setEmail("jahirortizbr@gmail.com");
+        admin.setPassword("123456");
+        admin.setTelefono("999888777");
+        admin.setDni("76615558");
+        admin.setDireccion("La Planicie");
+        admin.setRol("ADMIN");
+        return usuarioRepository.save(admin);
     }
 
     // Buscar usuario por email (para login)
     @Transactional(readOnly = true)
     public Optional<Usuario> buscarPorEmail(String email) {
         return usuarioRepository.findByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Usuario> buscarPorId(Integer id) {
+        return usuarioRepository.findById(id);
     }
 
     // Verificar credenciales para login: email y password deben coincidir

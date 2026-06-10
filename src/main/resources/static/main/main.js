@@ -196,6 +196,131 @@ function showNotification(message, type = 'success') {
   }, 2000);
 }
 
+// =========================================
+// MODAL DE PRODUCTO - CATALOGO
+// =========================================
+let currentCatalogProduct = null;
+
+function productFromCard(card) {
+  if (!card) return null;
+  return {
+    id: card.dataset.id,
+    name: card.dataset.name,
+    brand: card.dataset.brand || '',
+    price: parseFloat(card.dataset.price || '0'),
+    image: card.dataset.image,
+    description: card.dataset.description || '',
+    category: card.dataset.category || '',
+    stock: parseInt(card.dataset.stock || '0', 10),
+    notes: card.dataset.notes || 'Salida fresca, corazon especiado y fondo amaderado elegante.'
+  };
+}
+
+function openProductModal(product) {
+  const modal = document.getElementById('productModal');
+  if (!modal || !product) return;
+  currentCatalogProduct = product;
+
+  const img = document.getElementById('productModalImg');
+  const title = document.getElementById('productModalTitle');
+  const brand = document.getElementById('productModalBrand');
+  const desc = document.getElementById('productModalDesc');
+  const notes = document.getElementById('productModalNotes');
+  const price = document.getElementById('productModalPrice');
+  const addBtn = document.getElementById('productModalAdd');
+
+  if (img) {
+    img.src = product.image;
+    img.alt = product.name;
+  }
+  if (title) title.textContent = product.name;
+  if (brand) brand.textContent = product.brand || product.category || 'MEDINA FRAGRANCES';
+  if (desc) desc.textContent = product.description;
+  if (notes) notes.textContent = product.notes;
+  if (price) price.textContent = `S/. ${product.price.toFixed(2)}`;
+  if (addBtn) addBtn.disabled = product.stock === 0;
+
+  ['productModalThumb1', 'productModalThumb2', 'productModalThumb3'].forEach((id) => {
+    const thumb = document.getElementById(id);
+    if (thumb) thumb.src = product.image;
+  });
+
+  document.querySelectorAll('#productModal .size-option').forEach((btn, index) => {
+    btn.classList.toggle('active', index === 0);
+  });
+
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open-soft');
+}
+
+function closeProductModal() {
+  const modal = document.getElementById('productModal');
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open-soft');
+}
+
+function addCatalogProductFromModal() {
+  if (!currentCatalogProduct) return;
+  CartModule.add({
+    id: currentCatalogProduct.id,
+    name: currentCatalogProduct.name,
+    price: currentCatalogProduct.price,
+    image: currentCatalogProduct.image,
+    description: currentCatalogProduct.description
+  });
+  closeProductModal();
+}
+
+function bindCatalogModal() {
+  document.querySelectorAll('.catalog-product-card').forEach(card => {
+    card.addEventListener('click', (event) => {
+      if (event.target.closest('.btn-add-to-cart')) return;
+      openProductModal(productFromCard(card));
+    });
+  });
+
+  document.querySelectorAll('.btn-view-product').forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      const card = btn.closest('.product-card, .decant-card');
+      if (!card || !card.classList.contains('catalog-product-card')) return;
+      event.preventDefault();
+      event.stopPropagation();
+      openProductModal(productFromCard(card));
+    });
+  });
+
+  document.querySelectorAll('[data-close-product-modal]').forEach(el => {
+    el.addEventListener('click', closeProductModal);
+  });
+
+  const addBtn = document.getElementById('productModalAdd');
+  if (addBtn) addBtn.addEventListener('click', addCatalogProductFromModal);
+
+  document.querySelectorAll('#productModal .product-thumb').forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const image = thumb.querySelector('img');
+      const mainImage = document.getElementById('productModalImg');
+      if (image && mainImage) mainImage.src = image.src;
+      document.querySelectorAll('#productModal .product-thumb').forEach(item => item.classList.remove('active'));
+      thumb.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('#productModal .size-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#productModal .size-option').forEach(item => item.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeProductModal();
+});
+
 function showLoginModal() {
   alert('Función de login - Conecta con tu backend');
 }
@@ -282,11 +407,28 @@ function buyNowFromModal() {
   setTimeout(() => CartModule.checkout(), 500);
 }
 
+function bindDecantCardModal() {
+  document.querySelectorAll('.decant-card').forEach(card => {
+    card.addEventListener('click', (event) => {
+      if (event.target.closest('button, a')) return;
+      openDecantModal(
+        card.dataset.id,
+        card.dataset.name,
+        parseFloat(card.dataset.price || '0'),
+        card.dataset.image,
+        card.dataset.description || ''
+      );
+    });
+  });
+}
+
 // =========================================
 // INICIALIZACIÓN
 // =========================================
 document.addEventListener('DOMContentLoaded', () => {
   CartModule.init();
+  bindCatalogModal();
+  bindDecantCardModal();
 });
 
 // =========================================
@@ -297,6 +439,8 @@ window.removeFromCart = (id) => CartModule.remove(id);
 window.updateQuantity = (id, ch) => CartModule.updateQty(id, ch);
 window.proceedToCheckout = () => CartModule.checkout();
 window.showLoginModal = showLoginModal;
+window.openProductModal = openProductModal;
+window.closeProductModal = closeProductModal;
 
 // Funciones globales para el modal de decants
 window.openDecantModal = openDecantModal;

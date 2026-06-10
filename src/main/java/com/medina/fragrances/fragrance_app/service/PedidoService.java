@@ -6,6 +6,9 @@ import com.medina.fragrances.fragrance_app.repository.PedidoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -29,5 +32,30 @@ public class PedidoService {
     @Transactional(readOnly = true)
     public List<Pedido> listarTodos() {
         return pedidoRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Pedido> buscarPorId(Integer id) {
+        return pedidoRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Pedido> listarPorEstado(String estado) {
+        return pedidoRepository.findByEstado(estado);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Integer, Long> contarPedidosPorUsuario() {
+        return pedidoRepository.findAll().stream()
+                .filter(pedido -> pedido.getUsuario() != null && pedido.getUsuario().getId() != null)
+                .collect(Collectors.groupingBy(pedido -> pedido.getUsuario().getId(), Collectors.counting()));
+    }
+
+    @Transactional
+    public void actualizarEstado(Integer id, String estado) {
+        pedidoRepository.findById(id).ifPresent(pedido -> {
+            pedido.setEstado(estado);
+            pedidoRepository.save(pedido);
+        });
     }
 }

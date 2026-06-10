@@ -78,15 +78,16 @@
   </div>
 
   <!-- Main Content -->
-  <main class="py-5">
+  <main class="decants-page py-5">
     <div class="container">
-      <div class="text-center mb-5">
+      <div class="catalog-heading text-center mb-5">
+        <span class="catalog-kicker">Prueba antes de elegir</span>
         <h1 class="display-5 fw-bold mb-3">DECANTS Y MUESTRAS</h1>
         <p class="text-muted lead">Elige tu tamaño (3ml, 5ml o 10ml) y prueba antes de invertir.</p>
       </div>
 
       <!-- Grid de Productos Decants -->
-      <div class="row g-4">
+      <div class="row g-4 decants-grid">
         
         <!-- Decant 1: Valentino -->
         <div class="col-lg-3 col-md-4 col-sm-6">
@@ -104,7 +105,7 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">Valentino</p>
               <h5 class="product-name mb-2">Valentino Uomo Intense</h5>
-              <p class="text-muted small mb-3">Desde S/. 45</p>
+              <p class="decant-price-label">Desde <strong>S/. 45</strong></p>
               <!-- Botón que llama a la función del Modal -->
               <button class="btn btn-outline-dark w-100 btn-view-product" 
                       onclick="openDecantModal('val-uomo', 'Valentino Uomo Intense', 45, 'img/Valentino Uomo.webp', 'Fragancia elegante y sofisticada para el hombre moderno.')">
@@ -129,7 +130,7 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">JEAN PAUL GAULTIER</p>
               <h5 class="product-name mb-2">JEAN PAUL GAULTIER LE MALE</h5>
-              <p class="text-muted small mb-3">Desde S/. 20</p>
+              <p class="decant-price-label">Desde <strong>S/. 20</strong></p>
               <button class="btn btn-outline-dark w-100 btn-view-product" 
                       onclick="openDecantModal('jpg-male', 'JPG Le Male', 20, 'img/JEAN PAUL GAULTIER LE MALE.webp', 'Un clásico atemporal con notas de lavanda y vainilla.')">
                 VER PRODUCTO
@@ -153,7 +154,7 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">AZZARO</p>
               <h5 class="product-name mb-2">9pm</h5>
-              <p class="text-muted small mb-3">Desde S/. 60</p>
+              <p class="decant-price-label">Desde <strong>S/. 60</strong></p>
               <button class="btn btn-outline-dark w-100 btn-view-product" 
                       onclick="openDecantModal('9pm', 'Azzaro 9PM', 60, 'img/9pm.webp', 'Frescura masculina radical con notas de bergamota.')">
                 VER PRODUCTO
@@ -177,7 +178,7 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">LATTAFA</p>
               <h5 class="product-name mb-2">Khamrah Dukhan</h5>
-              <p class="text-muted small mb-3">Desde S/. 75</p>
+              <p class="decant-price-label">Desde <strong>S/. 75</strong></p>
               <button class="btn btn-outline-dark w-100 btn-view-product" 
                       onclick="openDecantModal('khamrah', 'Lattafa Khamrah Dukhan', 75, 'img/khamrah dukhan.webp', 'Aroma dulce, especiado y adictivo.')">
                 VER PRODUCTO
@@ -201,9 +202,9 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">MONTALE</p>
               <h5 class="product-name mb-2">Vintage Radio</h5>
-              <p class="text-muted small mb-3">Desde S/. 55</p>
+              <p class="decant-price-label">Desde <strong>S/. 55</strong></p>
               <button class="btn btn-outline-dark w-100 btn-view-product" 
-                      onclick="openDecantModal('vintage', 'Vintage Radio', 55, 'img/Vintage radio.webp', 'Fragancia retro con un toque moderno.')">
+                      onclick="openDecantModal('vintage', 'Vintage Radio', 55, 'img/Vintage Radio.webp', 'Fragancia retro con un toque moderno.')">
                 VER PRODUCTO
               </button>
             </div>
@@ -225,7 +226,7 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">LATTAFA</p>
               <h5 class="product-name mb-2">Asad Bourbon</h5>
-              <p class="text-muted small mb-3">Desde S/. 65</p>
+              <p class="decant-price-label">Desde <strong>S/. 65</strong></p>
               <button class="btn btn-outline-dark w-100 btn-view-product" 
                       onclick="openDecantModal('asad', 'Asad Bourbon', 65, 'img/Asad Bourbon.webp', 'Poderoso y masculino con notas de tabaco.')">
                 VER PRODUCTO
@@ -249,7 +250,7 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">MONTALE</p>
               <h5 class="product-name mb-2">Amethyst</h5>
-              <p class="text-muted small mb-3">Desde S/. 50</p>
+              <p class="decant-price-label">Desde <strong>S/. 50</strong></p>
               <button class="btn btn-outline-dark w-100 btn-view-product" 
                       onclick="openDecantModal('amethyst', 'Amethyst', 50, 'img/Amethyst.webp', 'Elegancia y misterio en un frasco.')">
                 VER PRODUCTO
@@ -273,7 +274,7 @@
             <div class="product-info mt-3 p-3 text-center">
               <p class="text-muted small text-uppercase mb-1">LATTAFA</p>
               <h5 class="product-name mb-2">Shaheen Gold</h5>
-              <p class="text-muted small mb-3">Desde S/. 60</p>
+              <p class="decant-price-label">Desde <strong>S/. 60</strong></p>
               <button class="btn btn-outline-dark w-100 btn-view-product" 
                       onclick="openDecantModal('shaheen', 'Shaheen Gold', 60, 'img/Shaheen Gold.webp', 'Un aroma dorado y sofisticado.')">
                 VER PRODUCTO

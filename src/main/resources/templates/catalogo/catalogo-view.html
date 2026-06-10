@@ -57,68 +57,71 @@
     </div>
   </nav>
 
-  <main class="py-5">
+  <main class="catalog-page py-5">
     <div class="container">
-      <div class="text-center mb-4">
+      <div class="catalog-heading text-center mb-4">
+        <span class="catalog-kicker">Perfumeria premium</span>
         <h1 class="display-5 fw-bold mb-2">NUESTRO CATÁLOGO</h1>
-        <p class="text-muted" th:text="${productos.size()} + ' productos disponibles'">0 productos disponibles</p>
+        <p class="catalog-count" th:text="${productos.size()} + ' productos disponibles'">0 productos disponibles</p>
       </div>
 
       <!-- Filtros por categoria -->
-      <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
-        <a th:href="@{/catalogo}" class="btn btn-sm rounded-pill"
+      <div class="catalog-filters d-flex flex-wrap justify-content-center mb-4">
+        <a th:href="@{/catalogo}" class="btn btn-sm catalog-filter"
            th:classappend="${categoriaActiva == null and buscar == null} ? 'btn-dark' : 'btn-outline-dark'">Todos</a>
-        <a th:href="@{/catalogo(categoria='Para Él')}" class="btn btn-sm rounded-pill"
+        <a th:href="@{/catalogo(categoria='Para Él')}" class="btn btn-sm catalog-filter"
            th:classappend="${categoriaActiva == 'Para Él'} ? 'btn-dark' : 'btn-outline-dark'">Para Él</a>
-        <a th:href="@{/catalogo(categoria='Para Ella')}" class="btn btn-sm rounded-pill"
+        <a th:href="@{/catalogo(categoria='Para Ella')}" class="btn btn-sm catalog-filter"
            th:classappend="${categoriaActiva == 'Para Ella'} ? 'btn-dark' : 'btn-outline-dark'">Para Ella</a>
-        <a th:href="@{/catalogo(categoria='Unisex')}" class="btn btn-sm rounded-pill"
+        <a th:href="@{/catalogo(categoria='Unisex')}" class="btn btn-sm catalog-filter"
            th:classappend="${categoriaActiva == 'Unisex'} ? 'btn-dark' : 'btn-outline-dark'">Unisex</a>
       </div>
 
       <!-- Buscador -->
       <div class="row justify-content-center mb-5">
-        <div class="col-md-5">
-          <form th:action="@{/catalogo}" method="get" class="d-flex gap-2">
-            <input type="text" name="buscar" class="form-control rounded-0"
+        <div class="col-lg-6 col-md-8">
+          <form th:action="@{/catalogo}" method="get" class="catalog-search">
+            <i class="bi bi-search"></i>
+            <input type="text" name="buscar" class="form-control"
                    placeholder="Buscar fragancia..." th:value="${buscar}">
-            <button type="submit" class="btn btn-dark rounded-0">
-              <i class="bi bi-search"></i>
-            </button>
+            <button type="submit" class="btn btn-dark">Buscar</button>
           </form>
         </div>
       </div>
 
       <!-- Grilla de productos desde MySQL -->
-      <div class="row g-4">
-        <div class="col-lg-4 col-md-6" th:each="producto : ${productos}">
-          <div class="card h-100 shadow-sm border-0 product-card"
-               th:attr="data-id=${producto.id},data-name=${producto.nombre},data-price=${producto.precio},data-image=${producto.imageUrl},data-description=${producto.descripcion}">
-            <img class="card-img-top" th:src="@{${producto.imageUrl}}" th:alt="${producto.nombre}"
-                 style="object-fit:cover; height:280px;">
-            <div class="card-body">
-              <span class="badge bg-dark mb-2"
+      <div class="catalog-grid">
+        <div th:each="producto : ${productos}">
+          <article class="product-card catalog-product-card"
+                   th:attr="data-id=${producto.id},data-name=${producto.nombre},data-brand=${producto.marca},data-price=${producto.precio},data-image=${producto.imageUrl},data-description=${producto.descripcion},data-category=${producto.categoria},data-stock=${producto.stock},data-notes='Salida fresca, corazon especiado y fondo amaderado elegante'">
+            <div class="product-image-shell">
+              <span class="product-badge sale"
                     th:if="${producto.descuentoLabel != null and producto.descuentoLabel != ''}"
-                    th:text="${producto.descuentoLabel}"></span>
-              <span class="badge bg-secondary mb-2 ms-1" th:text="${producto.categoria}"></span>
-              <h5 class="card-title fw-bold" style="font-size:0.9rem;" th:text="${producto.nombre}">Nombre</h5>
-              <p class="card-text text-muted small" th:text="${producto.marca}">Marca</p>
-              <p class="card-text small" th:text="${producto.descripcion}">Descripción</p>
-              <p class="small text-success" th:if="${producto.stock > 0}">
-                <i class="bi bi-check-circle-fill"></i> En stock (<span th:text="${producto.stock}"></span>)
-              </p>
-              <p class="small text-danger" th:if="${producto.stock == 0}">
-                <i class="bi bi-x-circle-fill"></i> Sin stock
-              </p>
+                    th:text="${producto.descuentoLabel}">ON SALE</span>
+              <span class="product-category-badge" th:text="${producto.categoria}">Unisex</span>
+              <img th:src="@{${producto.imageUrl}}" th:alt="${producto.nombre}">
+              <button type="button" class="quick-view-overlay btn-view-product">
+                <span>Vista rapida</span>
+                <i class="bi bi-eye"></i>
+              </button>
             </div>
-            <div class="card-footer bg-white border-top-0">
-              <div class="d-flex justify-content-between align-items-center">
-                <strong class="text-dark" th:text="${producto.precioFormateado}">S/. 0.00</strong>
-                <button class="btn btn-outline-dark btn-sm rounded-0 btn-add-to-cart"
-                        th:disabled="${producto.stock == 0}">AÑADIR</button>
+            <div class="product-info">
+              <p class="product-brand" th:text="${producto.marca}">Marca</p>
+              <h2 class="product-name" th:text="${producto.nombre}">Nombre</h2>
+              <p class="product-description" th:text="${producto.descripcion}">Descripcion</p>
+              <div class="product-stock text-success" th:if="${producto.stock > 0}">
+                <i class="bi bi-check-circle-fill"></i> En stock (<span th:text="${producto.stock}"></span>)
+              </div>
+              <div class="product-stock text-danger" th:if="${producto.stock == 0}">
+                <i class="bi bi-x-circle-fill"></i> Sin stock
+              </div>
+              <div class="product-actions">
+                <strong class="current-price" th:text="${producto.precioFormateado}">S/. 0.00</strong>
+                <button type="button" class="btn btn-outline-dark btn-view-product"
+                        th:disabled="${producto.stock == 0}">Ver Producto</button>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
 
@@ -130,6 +133,49 @@
       </div>
     </div>
   </main>
+
+  <!-- Modal de producto del catalogo -->
+  <div class="product-modal" id="productModal" aria-hidden="true" role="dialog" aria-labelledby="productModalTitle">
+    <div class="product-modal__backdrop" data-close-product-modal></div>
+    <div class="product-modal__dialog">
+      <button type="button" class="product-modal__close" data-close-product-modal aria-label="Cerrar">
+        <i class="bi bi-x-lg"></i>
+      </button>
+      <div class="product-modal__media">
+        <div class="product-modal__image-frame">
+          <img id="productModalImg" src="" alt="Producto">
+        </div>
+        <div class="product-modal__thumbs">
+          <button type="button" class="product-thumb active"><img id="productModalThumb1" src="" alt="Miniatura 1"></button>
+          <button type="button" class="product-thumb"><img id="productModalThumb2" src="" alt="Miniatura 2"></button>
+          <button type="button" class="product-thumb"><img id="productModalThumb3" src="" alt="Miniatura 3"></button>
+        </div>
+      </div>
+      <div class="product-modal__content">
+        <p class="product-modal__brand" id="productModalBrand">MARCA</p>
+        <h2 id="productModalTitle">Producto</h2>
+        <p class="product-modal__description" id="productModalDesc">Descripcion</p>
+        <div class="product-modal__notes">
+          <span>Notas olfativas</span>
+          <p id="productModalNotes">Salida fresca, corazon especiado y fondo amaderado elegante.</p>
+        </div>
+        <div class="product-modal__sizes">
+          <span>Presentacion</span>
+          <div class="size-selector">
+            <button type="button" class="size-option active">100ml</button>
+            <button type="button" class="size-option">Original</button>
+            <button type="button" class="size-option">Gift ready</button>
+          </div>
+        </div>
+        <div class="product-modal__footer">
+          <strong id="productModalPrice">S/. 0.00</strong>
+          <button type="button" class="btn btn-dark" id="productModalAdd">
+            <i class="bi bi-bag-plus me-2"></i>Agregar al Carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <footer class="luxury-footer">
