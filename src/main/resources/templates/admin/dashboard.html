@@ -172,13 +172,15 @@
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Total</th>
+                        <th>Pago</th>
+                        <th>Entrega</th>
                         <th>Fecha</th>
                         <th>Estado</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:if="${pedidos.isEmpty()}">
-                        <td colspan="7" class="admin-empty">Todavia no hay pedidos registrados.</td>
+                        <td colspan="9" class="admin-empty">Todavia no hay pedidos registrados.</td>
                     </tr>
                     <tr th:each="pedido : ${pedidos}">
                         <td th:text="'#' + ${pedido.id}">#1</td>
@@ -186,6 +188,14 @@
                         <td th:text="${pedido.producto.nombre}">Producto</td>
                         <td th:text="${pedido.cantidad}">1</td>
                         <td th:text="'S/. ' + ${#numbers.formatDecimal(pedido.total, 1, 2)}">S/. 0.00</td>
+                        <td>
+                            <span class="admin-pill" th:text="${pedido.metodoPago != null ? pedido.metodoPago : 'Manual'}">Pago</span>
+                        </td>
+                        <td>
+                            <strong class="d-block" th:text="${pedido.metodoEntrega != null ? pedido.metodoEntrega : 'No indicado'}">Delivery</strong>
+                            <small class="text-muted d-block" th:text="${pedido.telefonoContacto != null ? pedido.telefonoContacto : pedido.usuario.telefono}">999999999</small>
+                            <small class="text-muted d-block" th:text="${pedido.direccionEntrega != null ? pedido.direccionEntrega : pedido.usuario.direccion}">Direccion</small>
+                        </td>
                         <td th:text="${pedido.fecha != null ? #temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm') : '-'}">-</td>
                         <td>
                             <form th:action="@{/admin/pedidos/{id}/estado(id=${pedido.id})}" method="post" class="admin-status-form">

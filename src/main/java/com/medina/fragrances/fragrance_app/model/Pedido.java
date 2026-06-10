@@ -39,6 +39,21 @@ public class Pedido {
     @Column(name = "estado", length = 50)
     private String estado = "PENDIENTE";
 
+    @Column(name = "metodo_pago", length = 50)
+    private String metodoPago;
+
+    @Column(name = "metodo_entrega", length = 50)
+    private String metodoEntrega;
+
+    @Column(name = "direccion_entrega", length = 200)
+    private String direccionEntrega;
+
+    @Column(name = "telefono_contacto", length = 20)
+    private String telefonoContacto;
+
+    @Column(name = "notas", length = 500)
+    private String notas;
+
     @PrePersist
     public void prePersist() {
         this.fecha = LocalDateTime.now();
@@ -60,4 +75,14 @@ public class Pedido {
     public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
+    public String getMetodoPago() { return metodoPago; }
+    public void setMetodoPago(String metodoPago) { this.metodoPago = metodoPago; }
+    public String getMetodoEntrega() { return metodoEntrega; }
+    public void setMetodoEntrega(String metodoEntrega) { this.metodoEntrega = metodoEntrega; }
+    public String getDireccionEntrega() { return direccionEntrega; }
+    public void setDireccionEntrega(String direccionEntrega) { this.direccionEntrega = direccionEntrega; }
+    public String getTelefonoContacto() { return telefonoContacto; }
+    public void setTelefonoContacto(String telefonoContacto) { this.telefonoContacto = telefonoContacto; }
+    public String getNotas() { return notas; }
+    public void setNotas(String notas) { this.notas = notas; }
 }

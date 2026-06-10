@@ -58,6 +58,11 @@ CREATE TABLE IF NOT EXISTS pedido (
   total DOUBLE NOT NULL,
   fecha DATETIME(6),
   estado VARCHAR(50),
+  metodo_pago VARCHAR(50),
+  metodo_entrega VARCHAR(50),
+  direccion_entrega VARCHAR(200),
+  telefono_contacto VARCHAR(20),
+  notas VARCHAR(500),
   PRIMARY KEY (id),
   KEY idx_pedido_usuario (usuario_id),
   KEY idx_pedido_producto (producto_id),
@@ -66,3 +71,10 @@ CREATE TABLE IF NOT EXISTS pedido (
   CONSTRAINT fk_pedido_producto
     FOREIGN KEY (producto_id) REFERENCES producto (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE pedido
+  ADD COLUMN IF NOT EXISTS metodo_pago VARCHAR(50),
+  ADD COLUMN IF NOT EXISTS metodo_entrega VARCHAR(50),
+  ADD COLUMN IF NOT EXISTS direccion_entrega VARCHAR(200),
+  ADD COLUMN IF NOT EXISTS telefono_contacto VARCHAR(20),
+  ADD COLUMN IF NOT EXISTS notas VARCHAR(500);

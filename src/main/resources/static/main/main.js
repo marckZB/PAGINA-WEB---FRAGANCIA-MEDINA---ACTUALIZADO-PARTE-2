@@ -150,13 +150,7 @@ const CartModule = {
       showNotification('Tu carrito está vacío', 'warning');
       return;
     }
-    if (!currentUser) {
-      const offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('cartOffcanvas'));
-      if (offcanvas) offcanvas.hide();
-      setTimeout(() => showLoginModal(), 300);
-    } else {
-      window.location.href = 'checkout.html';
-    }
+    window.location.href = '/checkout';
   },
 
   bindAddToCartButtons() {
