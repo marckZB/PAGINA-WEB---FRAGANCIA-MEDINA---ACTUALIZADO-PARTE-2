@@ -2,6 +2,7 @@ package com.medina.fragrances.fragrance_app.service;
 
 import com.medina.fragrances.fragrance_app.model.Usuario;
 import com.medina.fragrances.fragrance_app.repository.UsuarioRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, BCryptPasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // Registrar un nuevo usuario
@@ -23,11 +26,17 @@ public class UsuarioService {
         if (usuario.getRol() == null || usuario.getRol().isBlank()) {
             usuario.setRol("CLIENTE");
         }
+        if (!esPasswordBCrypt(usuario.getPassword())) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
         return usuarioRepository.save(usuario);
     }
 
     @Transactional
     public Usuario guardar(Usuario usuario) {
+        if (!esPasswordBCrypt(usuario.getPassword())) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
         return usuarioRepository.save(usuario);
     }
 
@@ -35,7 +44,7 @@ public class UsuarioService {
     public Usuario asegurarAdminPrincipal() {
         Optional<Usuario> adminExistente = usuarioRepository.findFirstByRol("ADMIN");
         if (adminExistente.isPresent()) {
-            return adminExistente.get();
+            return asegurarPasswordCifrado(adminExistente.get());
         }
 
         Optional<Usuario> existente = usuarioRepository.findByEmail("jahirortizbr@gmail.com")
@@ -47,15 +56,14 @@ public class UsuarioService {
             Usuario admin = existente.get();
             if (!"ADMIN".equals(admin.getRol())) {
                 admin.setRol("ADMIN");
-                return usuarioRepository.save(admin);
             }
-            return admin;
+            return asegurarPasswordCifrado(admin);
         }
 
         Usuario admin = new Usuario();
         admin.setNombre("Jahir Ortiz");
         admin.setEmail("jahirortizbr@gmail.com");
-        admin.setPassword("123456");
+        admin.setPassword(passwordEncoder.encode("123456"));
         admin.setTelefono("999888777");
         admin.setDni("76615558");
         admin.setDireccion("La Planicie");
@@ -80,7 +88,7 @@ public class UsuarioService {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
         if (usuarioOpt.isPresent()) {
             Usuario usuario = usuarioOpt.get();
-            return usuario.getPassword().equals(password);
+            return passwordEncoder.matches(password, usuario.getPassword());
         }
         return false;
     }
@@ -101,5 +109,17 @@ public class UsuarioService {
     @Transactional(readOnly = true)
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
+    }
+
+    private Usuario asegurarPasswordCifrado(Usuario usuario) {
+        if (!esPasswordBCrypt(usuario.getPassword())) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            return usuarioRepository.save(usuario);
+        }
+        return usuario;
+    }
+
+    private boolean esPasswordBCrypt(String password) {
+        return password != null && (password.startsWith("$2a$") || password.startsWith("$2b$") || password.startsWith("$2y$"));
     }
 }

@@ -1,8 +1,8 @@
 package com.medina.fragrances.fragrance_app.controller;
 
+import com.medina.fragrances.fragrance_app.dto.RegistroUsuarioDto;
 import com.medina.fragrances.fragrance_app.model.Usuario;
 import com.medina.fragrances.fragrance_app.service.UsuarioService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Optional;
 
 @Controller
 public class AuthController {
@@ -25,28 +23,35 @@ public class AuthController {
 
     @GetMapping("/registro")
     public String mostrarRegistro(Model model) {
-        model.addAttribute("usuario", new Usuario());
+        model.addAttribute("usuario", new RegistroUsuarioDto());
         return "autch/registro";
     }
 
     @PostMapping("/auth/registrar")
-    public String registrarUsuario(@Valid @ModelAttribute("usuario") Usuario usuario,
+    public String registrarUsuario(@Valid @ModelAttribute("usuario") RegistroUsuarioDto registroDto,
                                    BindingResult result,
                                    Model model) {
         if (result.hasErrors()) {
             return "autch/registro";
         }
 
-        if (usuarioService.existeEmail(usuario.getEmail())) {
+        if (usuarioService.existeEmail(registroDto.getEmail())) {
             model.addAttribute("errorEmail", "Este correo ya esta registrado. Intente con otro.");
             return "autch/registro";
         }
 
-        if (usuarioService.existeDni(usuario.getDni())) {
+        if (usuarioService.existeDni(registroDto.getDni())) {
             model.addAttribute("errorDni", "Este DNI ya esta registrado.");
             return "autch/registro";
         }
 
+        Usuario usuario = new Usuario();
+        usuario.setNombre(registroDto.getNombre());
+        usuario.setEmail(registroDto.getEmail());
+        usuario.setPassword(registroDto.getPassword());
+        usuario.setTelefono(registroDto.getTelefono());
+        usuario.setDni(registroDto.getDni());
+        usuario.setDireccion(registroDto.getDireccion());
         usuario.setRol("CLIENTE");
         usuarioService.registrar(usuario);
         return "redirect:/login?registrado=true";
@@ -54,6 +59,8 @@ public class AuthController {
 
     @GetMapping("/login")
     public String mostrarLogin(@RequestParam(value = "registrado", required = false) String registrado,
+                               @RequestParam(value = "error", required = false) String error,
+                               @RequestParam(value = "logout", required = false) String logout,
                                @RequestParam(value = "redirect", required = false, defaultValue = "/") String redirect,
                                Model model) {
         usuarioService.asegurarAdminPrincipal();
@@ -62,33 +69,12 @@ public class AuthController {
         if (registrado != null) {
             model.addAttribute("mensajeExito", "Cuenta creada exitosamente. Ya puedes iniciar sesion.");
         }
-        return "autch/login";
-    }
-
-    @PostMapping("/auth/ingresar")
-    public String ingresarUsuario(@ModelAttribute("usuario") Usuario usuario,
-                                  @RequestParam(value = "redirect", required = false, defaultValue = "/") String redirect,
-                                  Model model,
-                                  HttpSession session) {
-        Optional<Usuario> usuarioOpt = usuarioService.buscarPorEmail(usuario.getEmail());
-
-        if (usuarioOpt.isPresent() && usuarioOpt.get().getPassword().equals(usuario.getPassword())) {
-            Usuario usuarioLogueado = usuarioOpt.get();
-            session.setAttribute("nombreUsuario", usuarioLogueado.getNombre());
-            session.setAttribute("usuarioId", usuarioLogueado.getId());
-            session.setAttribute("rolUsuario", usuarioLogueado.getRol());
-
-            if ("ADMIN".equals(usuarioLogueado.getRol())) {
-                session.setAttribute("adminAutenticado", true);
-                return "redirect:/admin";
-            }
-
-            return "redirect:" + redirect;
+        if (error != null) {
+            model.addAttribute("errorLogin", "Correo o contrasena incorrectos.");
         }
-
-        model.addAttribute("errorLogin", "Correo o contrasena incorrectos.");
-        model.addAttribute("redirectUrl", redirect);
-        model.addAttribute("usuario", usuario);
+        if (logout != null) {
+            model.addAttribute("mensajeExito", "Sesion cerrada correctamente.");
+        }
         return "autch/login";
     }
 }

@@ -7,6 +7,8 @@ import com.medina.fragrances.fragrance_app.service.PedidoService;
 import com.medina.fragrances.fragrance_app.service.ProductoService;
 import com.medina.fragrances.fragrance_app.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -136,6 +138,12 @@ public class CheckoutController {
         if (usuarioId instanceof Integer id) {
             return usuarioService.buscarPorId(id);
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getName())) {
+            return usuarioService.buscarPorEmail(authentication.getName());
+        }
+
         return Optional.empty();
     }
 

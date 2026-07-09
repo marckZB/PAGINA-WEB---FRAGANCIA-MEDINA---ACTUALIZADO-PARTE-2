@@ -1,5 +1,9 @@
 HELP.md
 target/
+.local-db/
+.mysql-data/
+mysql-portable*.log
+spring-boot*.log
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
